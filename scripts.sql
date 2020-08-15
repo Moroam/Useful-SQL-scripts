@@ -73,7 +73,7 @@ END
 /* splits a string into substrings by separator-selects a substring with the specified index */
 CREATE FUNCTION `splitStr`(strVal TEXT, nom INT, delimetr varchar(10)) RETURNS varchar(255)
 BEGIN
-	RETURN SUBSTRING_INDEX(SUBSTRING_INDEX(concat(strVal,delimetr), delimetr,  nom), delimetr,  -1);
+  RETURN SUBSTRING_INDEX(SUBSTRING_INDEX(concat(strVal,delimetr), delimetr,  nom), delimetr,  -1);
 END
 
 
