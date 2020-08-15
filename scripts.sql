@@ -1,3 +1,4 @@
+/* finds the selected word in the texts of procedures and function */
 CREATE PROCEDURE `findSQLObject`(str VARCHAR(255))
 BEGIN
   SET str = concat('%', str, '%');
@@ -7,6 +8,7 @@ BEGIN
 END
 
 
+/* formats a string to a date */
 CREATE FUNCTION `format_date`(Dt varchar(20)) RETURNS varchar(20)
 BEGIN
   declare D varchar(20) default '';
@@ -68,12 +70,14 @@ BEGIN
 END
 
 
+/* splits a string into substrings by separator-selects a substring with the specified index */
 CREATE FUNCTION `splitStr`(strVal TEXT, nom INT, delimetr varchar(10)) RETURNS varchar(255)
 BEGIN
 	RETURN SUBSTRING_INDEX(SUBSTRING_INDEX(concat(strVal,delimetr), delimetr,  nom), delimetr,  -1);
 END
 
 
+/* truncates the string and adds three dots at the end */
 CREATE FUNCTION `trim3dots`(str VARCHAR(10240), len INT) RETURNS varchar(2048)
 BEGIN
   DECLARE num INT DEFAULT char_length(str);
@@ -89,7 +93,7 @@ BEGIN
       );
 END
 
-
+/* selects unique values from the list */
 CREATE FUNCTION `uniqueValueList`(str VARCHAR(2048), sep VARCHAR(10)) RETURNS varchar(2048)
 BEGIN
   DECLARE nom INT DEFAULT 1;
@@ -124,4 +128,15 @@ BEGIN
   DROP TEMPORARY TABLE U;
 
   RETURN res;
+END
+
+
+/* removes double space characters from the string */
+CREATE FUNCTION `trim_str`(str VARCHAR(10240)) RETURNS varchar(10240)
+BEGIN
+  # for MySQL 5...
+  # return trim(replace(replace(replace(replace(replace(replace(str,'\t',' '), char(13), ' '), char(10), ' '),'   ',' '),'  ',' '),'  ',' '));
+  
+  # for MySQL 8.0
+  RETURN trim(REGEXP_REPLACE(str,'[:space:]{2,}', ' '));
 END
