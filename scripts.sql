@@ -9,7 +9,7 @@ END
 
 
 /* formats a string to a date */
-CREATE FUNCTION `format_date`(Dt varchar(20)) RETURNS varchar(20)
+CREATE FUNCTION `formatDate`(Dt varchar(20)) RETURNS varchar(20)
 BEGIN
   declare D varchar(20) default '';
   declare ln int default char_length(ifnull(Dt,''));
@@ -132,7 +132,7 @@ END
 
 
 /* removes double space characters from the string */
-CREATE FUNCTION `trim_str`(str VARCHAR(10240)) RETURNS varchar(10240)
+CREATE FUNCTION `trimStr`(str VARCHAR(10240)) RETURNS varchar(10240)
 BEGIN
   # for MySQL 5...
   # return trim(replace(replace(replace(replace(replace(replace(str,'\t',' '), char(13), ' '), char(10), ' '),'   ',' '),'  ',' '),'  ',' '));
