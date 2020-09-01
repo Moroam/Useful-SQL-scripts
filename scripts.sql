@@ -1,4 +1,4 @@
-/* finds the selected word in the texts of procedures and function */
+/* finds the selected word in the texts of procedures, function, tables, views */
 CREATE PROCEDURE `findSQLObject`(str VARCHAR(255))
 BEGIN
   SET str = concat('%', str, '%');
@@ -6,8 +6,34 @@ BEGIN
   SELECT ROUTINE_SCHEMA, ROUTINE_TYPE, DTD_IDENTIFIER, ROUTINE_NAME, CREATED, LAST_ALTERED
   FROM INFORMATION_SCHEMA.ROUTINES
   WHERE ROUTINE_DEFINITION LIKE str;
+
+  select TABLE_SCHEMA, TABLE_NAME, ENGINE, TABLE_ROWS, CREATE_TIME, UPDATE_TIME 
+  from information_schema.TABLES
+  where TABLE_NAME like str;
+
+  select TABLE_NAME, TABLE_SCHEMA, COLLATION_NAME, COLUMN_TYPE
+  from information_schema.`COLUMNS` 
+  where COLLATION_NAME like str;
+
+  select TABLE_SCHEMA, TABLE_NAME VIEW_NAME, VIEW_DEFINITION, `DEFINER` 
+  from information_schema.VIEWS 
+  where VIEW_DEFINITION like str;
+
 END
 
+/* finds procedures, function and table created or altered after selected date */
+CREATE DEFINER=`root`@`%` PROCEDURE `comod`.`findSQLObjectDate`(dt date)
+BEGIN
+
+  SELECT ROUTINE_SCHEMA, ROUTINE_TYPE, DTD_IDENTIFIER, ROUTINE_NAME, CREATED, LAST_ALTERED
+  FROM INFORMATION_SCHEMA.ROUTINES
+  WHERE LAST_ALTERED >= dt;
+
+  select TABLE_SCHEMA, TABLE_NAME, ENGINE, TABLE_ROWS, CREATE_TIME, UPDATE_TIME 
+  from information_schema.TABLES
+  where CREATE_TIME >= dt;
+
+END
 
 /* formats a string to a date */
 CREATE FUNCTION `formatDate`(Dt varchar(20)) RETURNS varchar(20)
