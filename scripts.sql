@@ -13,7 +13,7 @@ BEGIN
 
   select TABLE_NAME, TABLE_SCHEMA, COLUMN_NAME, COLUMN_TYPE
   from information_schema.`COLUMNS` 
-  where COLLATION_NAME like str;
+  where COLUMN_NAME like str;
 
   select TABLE_SCHEMA, TABLE_NAME VIEW_NAME, VIEW_DEFINITION, `DEFINER` 
   from information_schema.VIEWS 
