@@ -11,7 +11,7 @@ BEGIN
   from information_schema.TABLES
   where TABLE_NAME like str;
 
-  select TABLE_NAME, TABLE_SCHEMA, COLLATION_NAME, COLUMN_TYPE
+  select TABLE_NAME, TABLE_SCHEMA, COLUMN_NAME, COLUMN_TYPE
   from information_schema.`COLUMNS` 
   where COLLATION_NAME like str;
 
